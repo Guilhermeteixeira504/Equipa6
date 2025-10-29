@@ -134,28 +134,35 @@ public class Teste {
             }
         }
     }
-
     private static void criarPrograma(GerirProgramaVoluntariado gP) {
-        System.out.println("\n--- Novo Programa de Voluntariado---");
-        System.out.print("Título: "); 
-        String titulo = ler.next();
-        System.out.print("Descrição: "); 
-        String descricao = ler.next();
-        System.out.print("Localização: ");
-        String local = ler.next();
-        System.out.print("Nº de vagas: "); 
-        int vagas = ler.nextInt();
+        System.out.println("\n--- Novo Programa de Voluntariado ---"); 
+        
+        ler.nextLine();
+        System.out.print("Título: ");       
+        String titulo = ler.nextLine().trim();
+
+        System.out.print("Descrição: ");    
+        String descricao = ler.nextLine().trim();
+
+        System.out.print("Localização: ");  
+        String localizacao = ler.nextLine().trim();
+
+        System.out.print("Nº de vagas: ");  
+        int vagas = Integer.parseInt(ler.nextLine().trim());  // lê linha e converte
+
         System.out.print("Data início (AAAA-MM-DD): "); 
-        LocalDate dataInicio = LocalDate.parse(ler.next());
-        System.out.print("Data fim (AAAA-MM-DD): "); 
-        LocalDate dataFinal = LocalDate.parse(ler.next());
-        System.out.print("Total de horas: ");
-        int total = ler.nextInt();
+        LocalDate di = lerData();
 
-        long id = gP.create(titulo, descricao, local, vagas, dataInicio, dataFinal, total);
-        System.out.println(id > 0 ? "Programa criado com ID: " + id : "Erro! Programa Não criado!!!");
+        System.out.print("Data fim (AAAA-MM-DD): ");    
+        LocalDate df = lerData();
+
+        System.out.print("Total de horas: ");           
+        int total = Integer.parseInt(ler.nextLine().trim());
+
+        long id = gP.create(titulo, descricao, localizacao, vagas, di, df, total);
+        System.out.println(id > 0 ? "Programa criado com ID: " + id : "Falhou a criação!!!");
     }
-
+    
     private static void procurarProgramaPorId(GerirProgramaVoluntariado gP) {
         System.out.print("ID do programa: ");
         long id = ler.nextLong();
@@ -213,5 +220,11 @@ public class Teste {
         String passNova = ler.nextLine();
         boolean alterada = gU.atualizaPassword(u.getEmail(), passAntiga, passNova);
         System.out.println(alterada ? "Password alterada com sucesso!!!" : "Erro!!!");
+    }
+    private static LocalDate lerData() {
+        while (true) {
+            try { return LocalDate.parse(ler.nextLine()); }
+            catch (DateTimeParseException e) { System.out.print("Data inválida (formato AAAA-MM-DD): "); }
+        }
     }
 }
