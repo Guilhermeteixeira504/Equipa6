@@ -216,6 +216,7 @@ public class Teste {
     private static void alterarPassword(Utilizador u, GerirUtilizador gU) {
         System.out.print("Password atual: ");
         String passAntiga = ler.next();
+        ler.nextLine();
         System.out.print("Nova password: ");
         String passNova = ler.nextLine();
         boolean alterada = gU.atualizaPassword(u.getEmail(), passAntiga, passNova);

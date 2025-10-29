@@ -167,7 +167,8 @@ public class GerirUtilizador {
                 return false;
             }
 
-            u.setPassword(newPassword);            
+            u.setPassword(newPassword);         
+            session.update(u);
             session.getTransaction().commit();
             return true;
         }
