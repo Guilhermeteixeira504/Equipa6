@@ -20,6 +20,7 @@ public class Utilizador {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String morada;
 
     @Column(name = "telemovel")
