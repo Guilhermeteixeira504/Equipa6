@@ -2,12 +2,12 @@ package upt.lp.hibernate;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "utilizador")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Utilizador {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -26,14 +26,12 @@ public class Utilizador {
     @Column(name = "telemovel")
     private int telemovel;
 
-    
     @Column(name = "tipoUtilizador", nullable = false, length = 20)
     private String tipoUtilizador = "USER"; // valor padrão
 
-
     public Utilizador() {}
 
-   
+    // Getters e Setters
     public long getId() { 
     	return id; 
     	}
@@ -45,7 +43,7 @@ public class Utilizador {
     	return nome; 
     	}
     public void setNome(String nome) { 
-    	this.nome = nome;
+    	this.nome = nome; 
     	}
 
     public String getEmail() { 
@@ -55,34 +53,33 @@ public class Utilizador {
     	this.email = email; 
     	}
 
-    public String getPassword() {
+    public String getPassword() { 
     	return password; 
-    }
+    	}
     public void setPassword(String password) { 
-    	this.password = password; 
+    	this.password = password;
     	}
 
     public String getMorada() { 
     	return morada; 
     	}
     public void setMorada(String morada) { 
-    	this.morada = morada; 
+    	this.morada = morada;
     	}
 
-    public int getTelemovel() { 
+    public int getTelemovel() {
     	return telemovel; 
     	}
     public void setTelemovel(int telemovel) { 
-    	this.telemovel = telemovel; 
+    	this.telemovel = telemovel;
     	}
-    public String getTipoUtilizador() {
-        return tipoUtilizador;
-    }
 
-    public void setTipoUtilizador(String tipoUtilizador) {
-        this.tipoUtilizador = tipoUtilizador;
-    }
-
+    public String getTipoUtilizador() { 
+    	return tipoUtilizador;
+    	}
+    public void setTipoUtilizador(String tipoUtilizador) { 
+    	this.tipoUtilizador = tipoUtilizador;
+    	}
 
     @Override
     public String toString() {
@@ -93,5 +90,4 @@ public class Utilizador {
                 ", tipoUtilizador='" + tipoUtilizador + '\'' +
                 '}';
     }
-
 }

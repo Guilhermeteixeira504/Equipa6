@@ -154,26 +154,35 @@ public class GerirVoluntario {
 	    try (Session session = sessionFactory.openSession()) {
 	        session.beginTransaction();
 
+	        // 1) Já existe voluntário associado a este utilizador?
 	        Voluntario v = session.createQuery(
-	                "from Voluntario v where v.utilizador.id = :uid", Voluntario.class)
+	                "select v from Voluntario v where v.utilizador.id = :uid", Voluntario.class)
 	                .setParameter("uid", utilizadorId)
+	                .setMaxResults(1)
 	                .uniqueResult();
 
-	        if (v == null) {
-	            Utilizador u = session.get(Utilizador.class, utilizadorId);
-	            if (u == null) {
-	                session.getTransaction().commit();
-	                return -1; // não existe utilizador
-	            }
-	            v = new Voluntario();
-	            v.setUtilizador(u);
-	            session.persist(v);
+	        if (v != null) {
+	            session.getTransaction().commit();
+	            return v.getId(); // já existe -> devolve o id
 	        }
+
+	        // 2) Caso não exista, confirma se o utilizador existe
+	        Utilizador u = session.get(Utilizador.class, utilizadorId);
+	        if (u == null) {
+	            session.getTransaction().commit();
+	            return -1; // não há utilizador com esse ID
+	        }
+
+	        // 3) Cria o voluntário “por cima” do utilizador (mesma PK através do MapsId)
+	        v = new Voluntario();
+	        v.setUtilizador(u);      // ligação 1–1; o id do voluntário = id do utilizador
+	        session.persist(v);
 
 	        session.getTransaction().commit();
 	        return v.getId();
 	    }
 	}
+
 }
 
 	

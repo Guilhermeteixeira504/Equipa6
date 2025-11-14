@@ -5,16 +5,17 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "voluntario")
-public class Voluntario {
-	 @Id
+    @Entity
+    @Table(name = "voluntario")
+    @PrimaryKeyJoinColumn(name = "utilizador_id")
+      public class Voluntario {
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
+	   private long id;
 	 @OneToOne
-	    @JoinColumn(name = "utilizador_id", nullable = false, unique = true)
-	    private Utilizador utilizador;
+	 @MapsId 
+	 @JoinColumn(name = "utilizador_id", nullable = false, unique = true)
+	   private Utilizador utilizador;
 	 
 	 @OneToMany(mappedBy = "voluntario", cascade = CascadeType.ALL, orphanRemoval = true)
 	 private List<Inscricao> inscricoes = new ArrayList<>();
